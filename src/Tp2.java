@@ -99,17 +99,29 @@ public class Tp2 {
 	public static double rk4_inPlus1_q1(double tn, double in, double h) {
 		return h * di_dt(tn, in);
 	}
+	public static double rk4_qnPlus1_q1(double tn, double qn, double in, double h) {
+		return h * in;
+	}
 	
 	public static double rk4_inPlus1_q2(double tn, double in, double h, double q1) {
 		return h * di_dt(tn + h/2, in + 0.5 * q1);
+	}
+	public static double rk4_qnPlus1_q2(double tn, double qn, double in, double h, double q1) {
+		return h * in;
 	}
 	
 	public static double rk4_inPlus1_q3(double tn, double in, double h, double q2) {
 		return h * di_dt(tn + h/2, in + 0.5 * q2);
 	}
+	public static double rk4_qnPlus1_q3(double tn, double qn, double in, double h, double q2) {
+		return h * in;
+	}
 	
 	public static double rk4_inPlus1_q4(double tn, double in, double h, double q3) {
 		return h * di_dt(tn + h, in + q3);
+	}
+	public static double rk4_qnPlus1_q4(double tn, double qn, double in, double h, double q3) {
+		return h * in;
 	}
 	
 	public static double rk4_inPlus1(double tn, double in, double h) {
@@ -118,6 +130,13 @@ public class Tp2 {
 		double q3 = rk4_inPlus1_q3(tn, in, h, q2);
 		double q4 = rk4_inPlus1_q4(tn, in, h, q3);
 		return in + (q1 + 2*q2 + 2*q3 + q4)/6;
+	}
+	public static double rk4_qnPlus1(double tn, double qn, double in, double h) {
+		double q1 = rk4_qnPlus1_q1(tn, qn, in, h);
+		double q2 = rk4_qnPlus1_q2(tn, qn, in, h, q1);
+		double q3 = rk4_qnPlus1_q3(tn, qn, in, h, q2);
+		double q4 = rk4_qnPlus1_q4(tn, qn, in, h, q3);
+		return qn + (q1 + 2*q2 + 2*q3 + q4)/6;
 	}
 	
 	/*
@@ -166,6 +185,7 @@ public class Tp2 {
 		double inPlus1_rk2=0;
 		double qnPlus1_rk2=0;
 		double inPlus1_rk4=0;
+		double qnPlus1_rk4=0;
 		double inPlus1_cranknicholson=0;
 		for(double tn=0;tn<21;tn+=h) {
 			writer.write("<tr>");
@@ -175,6 +195,7 @@ public class Tp2 {
 			writer.write("<td>" + (new Double(inPlus1_rk2)).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(qnPlus1_rk2)).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(inPlus1_rk4)).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(qnPlus1_rk4)).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(inPlus1_cranknicholson)).toString().replace(".",",")+ "</td>");
 			
 			writer.write("</tr>");
@@ -182,6 +203,7 @@ public class Tp2 {
 			inPlus1_euler = euler_inPlus1(tn,inPlus1_euler,h);
 			qnPlus1_rk2 = rk2_qnPlus1(tn, qnPlus1_rk2, inPlus1_rk2,h);
 			inPlus1_rk2 = rk2_inPlus1(tn, inPlus1_rk2,h);
+			qnPlus1_rk4 = rk4_qnPlus1(tn, qnPlus1_rk4, inPlus1_rk4 ,h);
 			inPlus1_rk4 = rk4_inPlus1(tn, inPlus1_rk4,h);
 			inPlus1_cranknicholson = cranknicholson_inPlus1(tn, inPlus1_cranknicholson, inPlus1_rk2, h);			
 		}		
