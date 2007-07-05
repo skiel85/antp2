@@ -13,7 +13,7 @@ public class Tp2 {
 	 * 
 	 */
 	public static double K=0.9;
-	
+	 
 	/**
 	 * Capacidad del capacitor
 	 */
@@ -70,20 +70,16 @@ public class Tp2 {
 	}	
 	
 	/**
-	 * Runge-Kutta orden 4
+	 * Crank-Nicolson
 	 */
-	public static double k1(double tn, double Wn){		
-		return dI_dT(tn,Wn);
-	}
 	
-	public static double k2(double tn, double Wn,double h,double q1 ){		
-		return dI_dT(tn+h,Wn+h*q1 );
+	/**
+	 * un+1 = un + k/2 [ f ( un+1, tn+1 ) + f ( un, tn ) ] 
+	 */
+	public static double crank_Nicolson(double tn,double Wn,double WnPlus1, double h){
+		double tnPlus1=tn+h;
+		return Wn + (h/2) * (dI_dT(tnPlus1, WnPlus1) + dI_dT(tn, Wn));
 	}
-	
-	public static double runge_Kutta_Orden4(double tn, double Wn, double h){		
-		return Wn + (h/2) * ( q1( tn, Wn) + q2( tn, Wn, h, q1( tn, Wn )));
-	}
-	
 	
 	private PrintStream out = System.out;
 	public void run() throws Exception {		
@@ -98,6 +94,7 @@ public class Tp2 {
 		writer.write("<th>t</th>");
 		writer.write("<th>Wn+1 (Euler)</th>");
 		writer.write("<th>Wn+1 (runge_Kutta_Orden2)</th>");
+		writer.write("<th>Wn+1 (crank_Nicolson)</th>");
 		writer.write("</tr><tr>");		
 	
 //		
@@ -107,17 +104,21 @@ public class Tp2 {
 		out.println(" --------------------------------------------------------");
 		out.println("    FUNCION   |DIGITOS|   ORDEN   |   RESULTADO");
 		
-		double h=0.001;		
+		double h=0.1;		
 		double wnPlus1_euler=0;
 		double wnPlus1_runge_Kutta_Orden2=0;
+		double wnPlus1_Crank_Nicolson=0;
 		for(double tn=0;tn<21;tn+=h) {
 			writer.write("<tr>");
 			writer.write("<td>" + (new Double(grid.redondear(tn))).toString().replace(".",",") + "</td>");
 			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_euler))).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden2))).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
+			
 			writer.write("</tr>");
 			wnPlus1_euler=Euler( tn,wnPlus1_euler,h);
 			wnPlus1_runge_Kutta_Orden2 = runge_Kutta_Orden2(tn, wnPlus1_runge_Kutta_Orden2,h);
+			wnPlus1_Crank_Nicolson=crank_Nicolson(tn, wnPlus1_Crank_Nicolson, wnPlus1_runge_Kutta_Orden2, h);			
 		}		
 		writer.write("</tr></table></pre></body></html>");
 		writer.close();
