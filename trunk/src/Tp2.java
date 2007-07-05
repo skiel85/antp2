@@ -151,6 +151,9 @@ public class Tp2 {
 		double tnPlus1=tn+h;
 		return in + (h/2) * (di_dt(tnPlus1, inPlus1) + di_dt(tn, in));
 	}
+	public static double cranknicholson_qnPlus1(double tn,double qn, double in,double inPlus1, double h){
+		return qn + (h/2) * (in + in);
+	}
 	
 	/*
 	public static double runge_Kutta_Orden4(double tn, double in, double h){		
@@ -175,7 +178,9 @@ public class Tp2 {
 		writer.write("<th>in+1 (RK2)</th>");
 		writer.write("<th>qn+1 (RK2)</th>");
 		writer.write("<th>in+1 (RK4)</th>");
+		writer.write("<th>qn+1 (RK4)</th>");
 		writer.write("<th>in+1 (Crank-Nicolson)</th>");
+		writer.write("<th>qn+1 (Crank-Nicolson)</th>");
 		writer.write("</tr><tr>");		
 	
 		
@@ -187,6 +192,7 @@ public class Tp2 {
 		double inPlus1_rk4=0;
 		double qnPlus1_rk4=0;
 		double inPlus1_cranknicholson=0;
+		double qnPlus1_cranknicholson=0;
 		for(double tn=0;tn<21;tn+=h) {
 			writer.write("<tr>");
 			writer.write("<td>" + (new Double(tn)).toString().replace(".",",") + "</td>");
@@ -197,6 +203,7 @@ public class Tp2 {
 			writer.write("<td>" + (new Double(inPlus1_rk4)).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(qnPlus1_rk4)).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(inPlus1_cranknicholson)).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(qnPlus1_cranknicholson)).toString().replace(".",",")+ "</td>");
 			
 			writer.write("</tr>");
 			qnPlus1_euler = euler_qnPlus1(tn,qnPlus1_euler, inPlus1_euler,h);
@@ -205,6 +212,7 @@ public class Tp2 {
 			inPlus1_rk2 = rk2_inPlus1(tn, inPlus1_rk2,h);
 			qnPlus1_rk4 = rk4_qnPlus1(tn, qnPlus1_rk4, inPlus1_rk4 ,h);
 			inPlus1_rk4 = rk4_inPlus1(tn, inPlus1_rk4,h);
+			qnPlus1_cranknicholson = cranknicholson_qnPlus1(tn, qnPlus1_cranknicholson, inPlus1_cranknicholson, inPlus1_rk2, h);
 			inPlus1_cranknicholson = cranknicholson_inPlus1(tn, inPlus1_cranknicholson, inPlus1_rk2, h);			
 		}		
 		writer.write("</tr></table></pre></body></html>");
