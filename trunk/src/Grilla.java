@@ -255,7 +255,7 @@
 				m++;
 			}
 			
-			Double result=Double.parseDouble(signo+"0."+String.valueOf(m)+ "E" + String.valueOf(exponente));
+			double result=Double.parseDouble(signo+"0."+String.valueOf(m)+ "E" + String.valueOf(exponente));
 			//System.out.println("result ( a "+ this.t+") : " + result );
 			return result;
 		}	
