@@ -34,9 +34,9 @@ public class Tp2 {
 		return ((1/R0)*dE_dt(tn)-(in / (R0 * C))) / (1 + (2 * K / R0) * in);
 	}
 	
-	public static double dq_dt(double tn, double in){		
+	/*public static double dq_dt(double tn, double in){		
 		return in;
-	}
+	}*/
 	
 	
 	/**
@@ -47,7 +47,7 @@ public class Tp2 {
 	}
 	
 	public static double euler_qnPlus1(double tn, double qn, double in, double h){		
-		return qn + h * dq_dt(tn, in);
+		return qn + h * in;
 	}
 	
 	
@@ -63,7 +63,7 @@ public class Tp2 {
 	}
 	
 	public static double rk2_qnPlus1_q1(double tn, double in){		
-		return dq_dt(tn, in);
+		return in;
 	}
 	
 	/**
@@ -74,7 +74,7 @@ public class Tp2 {
 	}
 	
 	public static double rk2_qnPlus1_q2(double tn, double qn, double in, double h,double q1 ){		
-		return di_dt(tn+h,in);
+		return in;
 	}
 	
 	/**
