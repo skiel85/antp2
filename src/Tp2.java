@@ -118,7 +118,7 @@ public class Tp2 {
 	
 	private PrintStream out = System.out;
 	public void run() throws Exception {		
-		Grilla grid = new Grilla( 5,  true);
+		Grilla grid = new Grilla(6,  true);
 		
 		FileWriter writer = new FileWriter("results.html");
 		writer.write("<html><head><title>Numérico</title>");
@@ -140,19 +140,23 @@ public class Tp2 {
 		out.println(" --------------------------------------------------------");
 		out.println("    FUNCION   |DIGITOS|   ORDEN   |   RESULTADO");
 		
-		double h=0.1;		
+		double h=0.001;		
 		double wnPlus1_euler=0;
 		double wnPlus1_runge_Kutta_Orden2=0;
 		double wnPlus1_runge_Kutta_Orden4=0;
 		double wnPlus1_Crank_Nicolson=0;
 		for(double tn=0;tn<21;tn+=h) {
 			writer.write("<tr>");
-			writer.write("<td>" + (new Double(grid.redondear(tn))).toString().replace(".",",") + "</td>");
-			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_euler))).toString().replace(".",",")+ "</td>");
-			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden2))).toString().replace(".",",")+ "</td>");
-			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden4))).toString().replace(".",",")+ "</td>");
-			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
-			
+//			writer.write("<td>" + (new Double(grid.redondear(tn))).toString().replace(".",",") + "</td>");
+//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_euler))).toString().replace(".",",")+ "</td>");
+//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden2))).toString().replace(".",",")+ "</td>");
+//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden4))).toString().replace(".",",")+ "</td>");
+//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + tn + "</td>");
+			writer.write("<td>" + wnPlus1_euler + "</td>");
+			writer.write("<td>" + wnPlus1_runge_Kutta_Orden2 + "</td>");
+			writer.write("<td>" + wnPlus1_runge_Kutta_Orden4 + "</td>");
+			writer.write("<td>" + wnPlus1_Crank_Nicolson + "</td>");
 			writer.write("</tr>");
 			wnPlus1_euler=Euler( tn,wnPlus1_euler,h);
 			wnPlus1_runge_Kutta_Orden2 = runge_Kutta_Orden2(tn, wnPlus1_runge_Kutta_Orden2,h);
