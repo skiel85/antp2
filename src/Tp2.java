@@ -73,6 +73,35 @@ public class Tp2 {
 	 * Crank-Nicolson
 	 */
 	
+	public static double rk4_q1(double tn, double Wn, double h) {
+		return h * dI_dT(tn, Wn);
+	}
+	
+	public static double rk4_q2(double tn, double Wn, double h, double q1) {
+		return h * dI_dT(tn + h/2, Wn + 0.5 * q1);
+	}
+	
+	public static double rk4_q3(double tn, double Wn, double h, double q2) {
+		return h * dI_dT(tn + h/2, Wn + 0.5 * q2);
+	}
+	
+	public static double rk4_q4(double tn, double Wn, double h, double q3) {
+		return h * dI_dT(tn + h, Wn + q3);
+	}
+	
+	public static double rk4_wnPlus1(double tn, double Wn, double h) {
+		double q1 = rk4_q1(tn, Wn, h);
+		double q2 = rk4_q2(tn, Wn, h, q1);
+		double q3 = rk4_q3(tn, Wn, h, q2);
+		double q4 = rk4_q4(tn, Wn, h, q3);
+		return Wn + (q1 + 2*q2 + 2*q3 + q4)/6;
+	}
+	
+	/*
+	public static double k1(double tn, double Wn){		
+		return dI_dT(tn,Wn);
+	}
+	
 	/**
 	 * un+1 = un + k/2 [ f ( un+1, tn+1 ) + f ( un, tn ) ] 
 	 */
@@ -80,6 +109,12 @@ public class Tp2 {
 		double tnPlus1=tn+h;
 		return Wn + (h/2) * (dI_dT(tnPlus1, WnPlus1) + dI_dT(tn, Wn));
 	}
+	
+	public static double runge_Kutta_Orden4(double tn, double Wn, double h){		
+		return Wn + (h/2) * ( q1( tn, Wn) + q2( tn, Wn, h, q1( tn, Wn )));
+	}
+	
+	
 	
 	private PrintStream out = System.out;
 	public void run() throws Exception {		
@@ -94,6 +129,7 @@ public class Tp2 {
 		writer.write("<th>t</th>");
 		writer.write("<th>Wn+1 (Euler)</th>");
 		writer.write("<th>Wn+1 (runge_Kutta_Orden2)</th>");
+		writer.write("<th>Wn+1 (runge_Kutta_Orden4)</th>");
 		writer.write("<th>Wn+1 (crank_Nicolson)</th>");
 		writer.write("</tr><tr>");		
 	
@@ -107,17 +143,20 @@ public class Tp2 {
 		double h=0.1;		
 		double wnPlus1_euler=0;
 		double wnPlus1_runge_Kutta_Orden2=0;
+		double wnPlus1_runge_Kutta_Orden4=0;
 		double wnPlus1_Crank_Nicolson=0;
 		for(double tn=0;tn<21;tn+=h) {
 			writer.write("<tr>");
 			writer.write("<td>" + (new Double(grid.redondear(tn))).toString().replace(".",",") + "</td>");
 			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_euler))).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden2))).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden4))).toString().replace(".",",")+ "</td>");
 			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
 			
 			writer.write("</tr>");
 			wnPlus1_euler=Euler( tn,wnPlus1_euler,h);
 			wnPlus1_runge_Kutta_Orden2 = runge_Kutta_Orden2(tn, wnPlus1_runge_Kutta_Orden2,h);
+			wnPlus1_runge_Kutta_Orden4 = rk4_wnPlus1(tn, wnPlus1_runge_Kutta_Orden4,h);
 			wnPlus1_Crank_Nicolson=crank_Nicolson(tn, wnPlus1_Crank_Nicolson, wnPlus1_runge_Kutta_Orden2, h);			
 		}		
 		writer.write("</tr></table></pre></body></html>");
