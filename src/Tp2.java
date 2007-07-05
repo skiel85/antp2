@@ -38,7 +38,7 @@ public class Tp2 {
 	/**
 	 * Iteración del método de Euler
 	 */
-	public static double euler_inp1(double tn, double in, double h){		
+	public static double euler_inPlus1(double tn, double in, double h){		
 		return in + h * f( tn,in);
 	}
 	
@@ -49,23 +49,23 @@ public class Tp2 {
 	/**
 	 * q1=f(tn,in)=dI_dT(tn,in) 
 	 */
-	public static double rk2_inp1_q1(double tn, double in){		
+	public static double rk2_inPlus1_q1(double tn, double in){		
 		return f(tn,in);
 	}
 	
 	/**
 	 * q2=f(tn+1,in+h*q1)=dI_dT(tn+1,in+h*q1) 
 	 */
-	public static double rk2_inp1_q2(double tn, double in,double h,double q1 ){		
+	public static double rk2_inPlus1_q2(double tn, double in,double h,double q1 ){		
 		return f(tn+h,in+h*q1 );
 	}
 	
 	/**
 	 * in+1=in+ h/2 * (q1 + q2) 
 	 */
-	public static double rk2_inp1(double tn, double in, double h){
-		double q1=rk2_inp1_q1( tn, in );
-		double q2=rk2_inp1_q2( tn, in, h, q1 );
+	public static double rk2_inPlus1(double tn, double in, double h){
+		double q1=rk2_inPlus1_q1( tn, in );
+		double q2=rk2_inPlus1_q2( tn, in, h, q1 );
 		return in + (h/2) * ( q1 + q2);
 	}	
 	
@@ -73,27 +73,27 @@ public class Tp2 {
 	 * Crank-Nicolson
 	 */
 	
-	public static double rk4_inp1_q1(double tn, double in, double h) {
+	public static double rk4_inPlus1_q1(double tn, double in, double h) {
 		return h * f(tn, in);
 	}
 	
-	public static double rk4_inp1_q2(double tn, double in, double h, double q1) {
+	public static double rk4_inPlus1_q2(double tn, double in, double h, double q1) {
 		return h * f(tn + h/2, in + 0.5 * q1);
 	}
 	
-	public static double rk4_inp1_q3(double tn, double in, double h, double q2) {
+	public static double rk4_inPlus1_q3(double tn, double in, double h, double q2) {
 		return h * f(tn + h/2, in + 0.5 * q2);
 	}
 	
-	public static double rk4_inp1_q4(double tn, double in, double h, double q3) {
+	public static double rk4_inPlus1_q4(double tn, double in, double h, double q3) {
 		return h * f(tn + h, in + q3);
 	}
 	
-	public static double rk4_inp1(double tn, double in, double h) {
-		double q1 = rk4_inp1_q1(tn, in, h);
-		double q2 = rk4_inp1_q2(tn, in, h, q1);
-		double q3 = rk4_inp1_q3(tn, in, h, q2);
-		double q4 = rk4_inp1_q4(tn, in, h, q3);
+	public static double rk4_inPlus1(double tn, double in, double h) {
+		double q1 = rk4_inPlus1_q1(tn, in, h);
+		double q2 = rk4_inPlus1_q2(tn, in, h, q1);
+		double q3 = rk4_inPlus1_q3(tn, in, h, q2);
+		double q4 = rk4_inPlus1_q4(tn, in, h, q3);
 		return in + (q1 + 2*q2 + 2*q3 + q4)/6;
 	}
 	
@@ -105,14 +105,14 @@ public class Tp2 {
 	/**
 	 * un+1 = un + k/2 [ f ( un+1, tn+1 ) + f ( un, tn ) ] 
 	 */
-	public static double cranknicholson_inp1(double tn,double in,double inPlus1, double h){
+	public static double cranknicholson_inPlus1(double tn,double in,double inPlus1, double h){
 		double tnPlus1=tn+h;
 		return in + (h/2) * (f(tnPlus1, inPlus1) + f(tn, in));
 	}
 	
 	/*
 	public static double runge_Kutta_Orden4(double tn, double in, double h){		
-		return in + (h/2) * ( rk2_inp1_q1( tn, in) + rk2_inp1_q2( tn, in, h, rk2_inp1_q1( tn, in )));
+		return in + (h/2) * ( rk2_inPlus1_q1( tn, in) + rk2_inPlus1_q2( tn, in, h, rk2_inPlus1_q1( tn, in )));
 	}
 	*/
 	
@@ -157,10 +157,10 @@ public class Tp2 {
 			writer.write("<td>" + (new Double(grid.redondear(inPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
 			
 			writer.write("</tr>");
-			inPlus1_euler=euler_inp1( tn,inPlus1_euler,h);
-			inPlus1_runge_Kutta_Orden2 = rk2_inp1(tn, inPlus1_runge_Kutta_Orden2,h);
-			inPlus1_runge_Kutta_Orden4 = rk4_inp1(tn, inPlus1_runge_Kutta_Orden4,h);
-			inPlus1_Crank_Nicolson=cranknicholson_inp1(tn, inPlus1_Crank_Nicolson, inPlus1_runge_Kutta_Orden2, h);			
+			inPlus1_euler=euler_inPlus1( tn,inPlus1_euler,h);
+			inPlus1_runge_Kutta_Orden2 = rk2_inPlus1(tn, inPlus1_runge_Kutta_Orden2,h);
+			inPlus1_runge_Kutta_Orden4 = rk4_inPlus1(tn, inPlus1_runge_Kutta_Orden4,h);
+			inPlus1_Crank_Nicolson=cranknicholson_inPlus1(tn, inPlus1_Crank_Nicolson, inPlus1_runge_Kutta_Orden2, h);			
 		}		
 		writer.write("</tr></table></pre></body></html>");
 		writer.close();
