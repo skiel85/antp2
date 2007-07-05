@@ -146,17 +146,11 @@ public class Tp2 {
 		double wnPlus1_runge_Kutta_Orden4=0;
 		double wnPlus1_Crank_Nicolson=0;
 		for(double tn=0;tn<21;tn+=h) {
-			writer.write("<tr>");
-//			writer.write("<td>" + (new Double(grid.redondear(tn))).toString().replace(".",",") + "</td>");
-//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_euler))).toString().replace(".",",")+ "</td>");
-//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden2))).toString().replace(".",",")+ "</td>");
-//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_runge_Kutta_Orden4))).toString().replace(".",",")+ "</td>");
-//			writer.write("<td>" + (new Double(grid.redondear(wnPlus1_Crank_Nicolson))).toString().replace(".",",")+ "</td>");
-			writer.write("<td>" + tn + "</td>");
-			writer.write("<td>" + wnPlus1_euler + "</td>");
-			writer.write("<td>" + wnPlus1_runge_Kutta_Orden2 + "</td>");
-			writer.write("<td>" + wnPlus1_runge_Kutta_Orden4 + "</td>");
-			writer.write("<td>" + wnPlus1_Crank_Nicolson + "</td>");
+			writer.write("<tr>");writer.write("<td>" + (new Double(tn)).toString().replace(".",",") + "</td>");
+			writer.write("<td>" + (new Double(wnPlus1_euler)).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(wnPlus1_runge_Kutta_Orden2)).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(wnPlus1_runge_Kutta_Orden4)).toString().replace(".",",")+ "</td>");
+			writer.write("<td>" + (new Double(wnPlus1_Crank_Nicolson)).toString().replace(".",",")+ "</td>");
 			writer.write("</tr>");
 			wnPlus1_euler=Euler( tn,wnPlus1_euler,h);
 			wnPlus1_runge_Kutta_Orden2 = runge_Kutta_Orden2(tn, wnPlus1_runge_Kutta_Orden2,h);
